@@ -1,0 +1,105 @@
+project_log_level: INFO # DEBUG, INFO, ERROR
+# matplotlib/seaborn figures
+figs:
+  save: False
+  save_to: /Users/dyan/Downloads/figs # file location to save figures
+  dpi: 100 # default 100
+
+# data file or source file. root is at project directory
+datasource:
+  fragments: resources/fragment-smiles.csv # keep this file, it's source
+  # skip_fragments: False: all models will be trained and predicted with fragment data
+  skip_fragments: False
+  # if the file for prediction is large, chunk_size = how many rows to predict each time
+  chunk_size: 3000
+  training:
+    cdk8: resources/training/cdk8-smiles.csv # keep this file, it's source
+    cdk8_bits: resources/training/cdk8-bits.csv # this file is generated
+    model_data: resources/training/model-data.csv # this file is generated
+  production:
+    cdk8: resources/production/cdk8-smiles.csv # this file is generated
+    cdk8_bits: resources/production/cdk8-bits.csv # this file is generated
+    model_data: resources/production/model-predictions.csv # this file is generated
+
+# target/label name
+y_label: Active
+# smiles column name
+cdk8:
+  smiles_name: Std_Smiles
+fragments:
+  smiles_name: Fragment
+  key_name: Fragment Key
+
+# test dataset ratio
+test_size: 0.1
+# cross validation fold number
+cv_folds: 10
+# cross validation scoring, f1_macro, neg_log_loss, accuracy, roc_auc, average_precision, precision...
+cv_scoring: precision
+# threshold for probability prediction, lower for more positive prediction
+threshold: 0.5
+# hyperopt fmin param, evaluation number
+hyperopt_max_evals: 200
+
+early_stopping:
+  patience: 20
+xgb:
+  max_num_features: 50 # feature selection
+keras:
+  epochs: 300 # we use early stopping too
+pca:
+  n_components: 50
+  apply: False
+tsne:
+  n_components: 2
+  perplexity: 50
+  n_iter: 500
+
+# model hyper-params
+lr:
+  max_iter: 1000
+  #  C: 13.91
+  penalty: l1 # 0=l2, 1=l2
+  solver: saga # 0=saga, 1=newton-cg, 2=lbfgs, 3=sag, 4=saga
+knn:
+  n_neighbors: 2
+svc:
+  probability: True
+  C: 8.46
+  gamma: 0.38
+  kernel: poly # 0=linear, 1=sigmoid, 2=poly, 3=rbf
+random_forest:
+  criterion: entropy # 0=gini, 1=entropy
+  max_depth: 18
+  n_estimators: 49
+xgboost:
+  objective: binary:logistic
+  use_label_encoder: False
+  colsample_bytree: 0.7
+  eta: 0.25
+  learning_rate: 0.06
+  max_depth: 13
+  min_child_weight: 0
+  n_estimators: 80 # also refers to xgboost early stopping (learning curve)
+  subsample: 0.9
+neural_network:
+  dropout: 0.6
+  lr: 0.34
+  optimizer: SGD # 0=SGD, 1=adam, 2=adamax (headsup: adamax might cause issues on M1)
+  percentage: 0.2
+  shrink: 0.8
+  # below not in space for hyperopt
+  activity_regularizer:
+    type: L1 # L1, L2, L1_L2
+    value: 1e-4  # 1e-4, 1e-3...
+  activation: relu # except the last layer
+
+polling:
+  count_to_pass: 6
+  voters:
+    LogisticRegressionModel: True
+    KNNModel: True
+    SVCModel: True
+    RandomForestModel: True
+    XGBoostModel: True
+    NeuralNetworkModel: True
