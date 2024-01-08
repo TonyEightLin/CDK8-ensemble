@@ -1,0 +1,6 @@
+from cdk8classifier.models.knn import KNNModel
+from cdk8classifier.models.logistic_regression import LogisticRegressionModel
+from cdk8classifier.models.neural_network import NeuralNetworkModel
+from cdk8classifier.models.random_forest import RandomForestModel
+from cdk8classifier.models.svc import SVCModel
+from cdk8classifier.models.xgboost import XGBoostModel
