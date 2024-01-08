@@ -1,0 +1,10 @@
+Model or Votes,Precision Score (%)
+LR,97.37
+KNN,97.37
+SVC,100.00
+RF,97.37
+XG,97.37
+MLP,100.00
+4 Votes,100.00
+5 Votes,100.00
+6 Votes,100.00

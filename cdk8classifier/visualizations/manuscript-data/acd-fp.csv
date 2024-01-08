@@ -1,0 +1,10 @@
+Model or Votes,False Positive Rate (%),count
+LR,3.03,27
+KNN,5.04,45
+SVC,2.47,22
+RF,1.91,17
+XG,2.13,19
+MLP,8.41,75
+4 Votes,1.91,17
+5 Votes,0.56,5
+6 Votes,0.00,0
